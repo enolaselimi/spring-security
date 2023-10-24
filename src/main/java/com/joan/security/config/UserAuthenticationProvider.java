@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.joan.security.dto.CredentialsDTO;
 import com.joan.security.dto.UserDTO;
 import com.joan.security.service.AuthenticationService;
@@ -24,14 +23,14 @@ import java.util.stream.Collectors;
 @Component
 public class UserAuthenticationProvider {
 
+    private static final String ID = "id";
+    private static final String ROLES = "roles";
+    private static final String ROLES_DELIMITOR = ",";
     private final AuthenticationService authenticationService;
     @Value(
             "${security.jwt.token.secret-key}"
     )
     private String secretKey;
-    private static final String ID = "id";
-    private static final String ROLES = "roles";
-    private static final String ROLES_DELIMITOR = ",";
 
     public UserAuthenticationProvider(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
@@ -61,7 +60,7 @@ public class UserAuthenticationProvider {
         DecodedJWT decodedJWT = verifier.verify(token);
 
         UserDTO userDTO = new UserDTO(); //authenticationService.findByLogin(decodedJWT.getIssuer());
-                                         // avoided - to avoid possible DB hit if it were a prod application
+        // avoided - to avoid possible DB hit if it were a prod application
         userDTO.setId(Long.valueOf(decodedJWT.getClaim(ID).toString()));
         userDTO.setLogin(decodedJWT.getIssuer());
         userDTO.setAuthorities(Arrays.asList(decodedJWT.getClaim(ROLES).toString().replaceAll("\"", "").split(ROLES_DELIMITOR)));

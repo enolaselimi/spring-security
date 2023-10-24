@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO implements UserDetails {
     private Long id;
     private String firstName;
@@ -21,6 +21,7 @@ public class UserDTO implements UserDetails {
     private String token;
 
     private List<String> authorities;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities.stream().map(SimpleGrantedAuthority::new).toList();
