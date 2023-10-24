@@ -1,5 +1,6 @@
 package com.joan.security.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,22 +15,22 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableWebSecurity @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
     private final UserAuthenticationProvider userAuthenticationProvider;
+    private final UsernameAndPasswordAuthFilter usernameAndPasswordAuthFilter;
+    private final JwtFilter jwtFilter;
 
-    public SecurityConfig(UserAuthenticationEntryPoint userAuthenticationEntryPoint, UserAuthenticationProvider userAuthenticationProvider) {
-        this.userAuthenticationEntryPoint = userAuthenticationEntryPoint;
-        this.userAuthenticationProvider = userAuthenticationProvider;
-    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.exceptionHandling(e -> e.authenticationEntryPoint(userAuthenticationEntryPoint));
 
         http
-                .addFilterBefore(new UsernameAndPasswordAuthFilter(userAuthenticationProvider), BasicAuthenticationFilter.class)
-                .addFilterBefore(new JwtFilter(userAuthenticationProvider), UsernameAndPasswordAuthFilter.class);
+                .addFilterBefore(usernameAndPasswordAuthFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter, UsernameAndPasswordAuthFilter.class);
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(CorsConfigurer::disable);

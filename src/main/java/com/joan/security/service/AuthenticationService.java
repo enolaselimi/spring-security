@@ -5,9 +5,7 @@ import com.joan.security.dto.UserDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.nio.CharBuffer;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
