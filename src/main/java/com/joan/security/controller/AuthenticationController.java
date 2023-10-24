@@ -4,7 +4,7 @@ import com.joan.security.config.UserAuthenticationProvider;
 import com.joan.security.dto.SignUpDTO;
 import com.joan.security.dto.UserDTO;
 import com.joan.security.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,13 +17,10 @@ import java.text.ParseException;
 
 @RestController
 @RequestMapping("/v1/auth")
+@RequiredArgsConstructor
 public class AuthenticationController {
-
-
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserAuthenticationProvider userAuthenticationProvider;
+    private final UserService userService;
+    private final UserAuthenticationProvider userAuthenticationProvider;
 
     @PostMapping("/log-in")
     public ResponseEntity<UserDTO> login(@AuthenticationPrincipal UserDTO userDTO) throws ParseException {
@@ -32,13 +29,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<UserDTO> register(@RequestBody SignUpDTO signUpDTO){
+    public ResponseEntity<UserDTO> register(@RequestBody SignUpDTO signUpDTO) {
         UserDTO createdUser = userService.signUp(signUpDTO);
         return ResponseEntity.ok(createdUser);
     }
 
     @PostMapping("/log-out")
-    public ResponseEntity<Void> logout(@AuthenticationPrincipal UserDTO signUpDTO){
+    public ResponseEntity<Void> logout(@AuthenticationPrincipal UserDTO signUpDTO) {
         SecurityContextHolder.clearContext();
         return ResponseEntity.noContent().build();
     }
