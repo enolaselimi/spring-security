@@ -55,7 +55,7 @@ public class UserAuthenticationProvider {
                 .sign(algorithm);
     }
 
-    public Authentication validateToken(String token) throws JsonProcessingException {
+    public Authentication validateToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token);
