@@ -17,14 +17,14 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class UsernameAndPasswordAuthFilter extends OncePerRequestFilter {
-    private final ObjectMapper MAPPER;
+    private final ObjectMapper mapper;
     private final UserAuthenticationProvider provider;
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if ("/v1/auth/log-in".equals(request.getServletPath()) && HttpMethod.POST.matches(request.getMethod())) {
-            CredentialsDTO credentialsDTO = MAPPER.readValue(request.getInputStream(), CredentialsDTO.class);
+            CredentialsDTO credentialsDTO = mapper.readValue(request.getInputStream(), CredentialsDTO.class);
 
             try {
                 SecurityContextHolder.getContext().setAuthentication(provider.validateCredentials(credentialsDTO));
