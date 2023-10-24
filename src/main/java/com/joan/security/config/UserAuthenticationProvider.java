@@ -62,6 +62,6 @@ public class UserAuthenticationProvider {
 
     public Authentication validateCredentials(CredentialsDTO credentialsDTO) {
         UserDTO userDTO = authenticationService.authenticate(credentialsDTO);
-        return new UsernamePasswordAuthenticationToken(userDTO, null, Collections.EMPTY_LIST);
+        return new UsernamePasswordAuthenticationToken(userDTO, null, userDTO.getAuthorities());
     }
 }
