@@ -26,7 +26,7 @@ public class AuthenticationController {
     private UserAuthenticationProvider userAuthenticationProvider;
 
     @PostMapping("/log-in")
-    public ResponseEntity<UserDTO> register(@AuthenticationPrincipal UserDTO userDTO) throws ParseException {
+    public ResponseEntity<UserDTO> login(@AuthenticationPrincipal UserDTO userDTO) throws ParseException {
         userDTO.setToken(userAuthenticationProvider.createToken(userDTO));
         return ResponseEntity.ok(userDTO);
     }
