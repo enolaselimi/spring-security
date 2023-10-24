@@ -14,6 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.joan.security.config.Paths.LOGIN;
+
 @Component
 @RequiredArgsConstructor
 public class UsernameAndPasswordAuthFilter extends OncePerRequestFilter {
@@ -23,7 +25,7 @@ public class UsernameAndPasswordAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if ("/v1/auth/log-in".equals(request.getServletPath()) && HttpMethod.POST.matches(request.getMethod())) {
+        if (LOGIN.getValue().equals(request.getServletPath()) && HttpMethod.POST.matches(request.getMethod())) {
             CredentialsDTO credentialsDTO = mapper.readValue(request.getInputStream(), CredentialsDTO.class);
 
             try {

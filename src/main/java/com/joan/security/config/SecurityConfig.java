@@ -13,6 +13,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import static com.joan.security.config.Paths.LOGIN;
+import static com.joan.security.config.Paths.SIGN_UP;
+
 @Configuration
 @EnableWebSecurity @EnableMethodSecurity
 @RequiredArgsConstructor
@@ -37,7 +40,7 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests(requests -> {
-            requests.requestMatchers(HttpMethod.POST, "/v1/auth/log-in", "/v1/auth/sign-up").permitAll()
+            requests.requestMatchers(HttpMethod.POST, LOGIN.getValue(), SIGN_UP.getValue()).permitAll()
               //      .requestMatchers("/v1/hello/john").hasAnyAuthority("ROLE_EDITOR")
                     .anyRequest().authenticated();
         });
