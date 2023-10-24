@@ -17,6 +17,7 @@ public class HelloWorldController {
         return ResponseEntity.ok("Hello");
     }
     @GetMapping("/john")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> adminHello(){
         return ResponseEntity.ok("Hello");
     }

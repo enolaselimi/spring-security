@@ -57,9 +57,7 @@ public class UserAuthenticationProvider {
         DecodedJWT decodedJWT = verifier.verify(token);
 
         UserDTO userDTO = authenticationService.findByLogin(decodedJWT.getIssuer());
-        List<GrantedAuthority> authorityList = userDTO.getAuthorities().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-
-        return new UsernamePasswordAuthenticationToken(userDTO, null, authorityList);
+        return new UsernamePasswordAuthenticationToken(userDTO, null, userDTO.getAuthorities());
     }
 
     public Authentication validateCredentials(CredentialsDTO credentialsDTO) {

@@ -3,6 +3,7 @@ package com.joan.security.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -11,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity @EnableMethodSecurity
 public class SecurityConfig {
     private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
     private final UserAuthenticationProvider userAuthenticationProvider;
@@ -34,7 +35,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(requests -> {
             requests.requestMatchers(HttpMethod.POST, "/v1/auth/log-in", "/v1/auth/sign-up").permitAll()
-                    .requestMatchers("/v1/hello/john").hasAnyAuthority("ROLE_EDITOR")
+              //      .requestMatchers("/v1/hello/john").hasAnyAuthority("ROLE_EDITOR")
                     .anyRequest().authenticated();
         });
         return http.build();
