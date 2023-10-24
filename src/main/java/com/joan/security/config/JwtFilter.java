@@ -31,6 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
                             provider.validateToken(authElements[1])
                     );
                 } catch (RuntimeException e){
+                    e.printStackTrace();
                     SecurityContextHolder.clearContext();
                 }
             }
