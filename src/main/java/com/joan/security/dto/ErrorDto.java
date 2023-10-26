@@ -16,5 +16,4 @@ public class ErrorDto {
     @JsonFormat(pattern = "dd-MM-YYYY HH:mm:ss")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime time;
-
 }
